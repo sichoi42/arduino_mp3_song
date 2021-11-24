@@ -7,24 +7,25 @@
 /****************/
 /*define for mp3*/
 #define R -1
-#define BIT_1 600
+#define BIT_1 500
 /***************/
 /*fixed Tone library*/
 #include <Tone.h>
-#include "SPARKLE.h"
+#include "SPARKLE2.h"
 
-Tone speaker[6];
+Tone speaker[5];
 int  flag = PIANO;
 
 void setup()
 {
   int i;
-  for (i=0;i<6;i++)
+  for (i=0;i<5;i++)
   {
      pinMode(i + 8, INPUT_PULLUP);
-     speaker[i].begin(i + 2);
+        speaker[i].begin(i + 2);
   }
-  pinMode(0, INPUT_PULLUP);
+  pinMode(22, INPUT_PULLUP);
+  Serial.begin(9600);
 }
 
 void play_piano()
@@ -41,8 +42,8 @@ void play_piano()
             speaker[3].play(NOTE_F4, 100);
         if (digitalRead(12) == 0)
             speaker[4].play(NOTE_G4, 100);
-        if (digitalRead(13) == 0)
-            speaker[5].play(NOTE_A4, 100);
+        /*if (digitalRead(13) == 0)
+            speaker[5].play(NOTE_A4, 100);*/
     }
 }
 
@@ -60,7 +61,10 @@ void play_mp3()
     m_dur = melody[cnt][1];
     if (m > 0)
       speaker[0].play(m, m_dur);
-
+    Serial.print("m: ");
+    Serial.println(m);
+    Serial.print("m_dur: ");
+    Serial.println(m_dur);
     //play harmony1
     h[0] = harmony[cnt][0];
     h_dur[0] = harmony[cnt][1];
@@ -73,14 +77,15 @@ void play_mp3()
     if (h[1] > 0)
       speaker[1].play(h[1], h_dur[1]);
     cnt++;
-  
     delay(m_dur);
     //delay(h_dur + 10);
     //delay(min(m_dur, h_dur[0], h_dur[1]));
-    if (cnt == len)
-        flag = PAINO;
+    if (cnt >= len)
+        flag = PIANO;
+    //Serial.println(cnt);
 }
 
+/*int16_t rest_time[6][50][2];
 int16_t record_melody[6][50][2];
 
 void recording()
@@ -89,6 +94,8 @@ void recording()
     int           m[6] = {0, };
     int           m_dur[6] = {0, };
     int           m_start[6] = {0, };
+    static int    m_end[6] = {0, };
+    static int    dur_interval[6] = {0, };
     
     for (int i=0;i<6;i++)
     {
@@ -97,10 +104,14 @@ void recording()
             if (checker[i] == 0)
             {
                 m_start[i] = millis();
+                dur_interval[i] = m_end[i] - m_start[i];
+                if (dur_interval[i] < 0)
+                    dur_interval[i] = 0;
                 checker[i] = 1;
             }
             m[i] = NOTE_C4;
             m_dur[i] = millis() - m_start[i];
+            m_end[i] = millis();
         }
         if (i == 1 && digitalRead(9) == 0)
         {
@@ -158,17 +169,22 @@ void recording()
             m_start[i] = 0;
         }
     }
-}
+    if (digitalRead(1) == 0)
+    {
+        play_recorded();
+    }
+}*/
 
 void loop()
 {
     play_piano();
-    if (digitalRead(0) == 0)
+    if (digitalRead(22) == 0)
         flag = MP3;
-    if (digitalRead(1) == 0)
-        flag = RECORDER;
+    /*if (digitalRead(2) == 0)
+        flag = RECORDER;*/
+    //Serial.println(digitalRead(22));
     if (flag == MP3)
         play_mp3();
-    if (flag == RECORDER)
-        recording();
+    /*if (flag == RECORDER)
+        recording();*/
 }
