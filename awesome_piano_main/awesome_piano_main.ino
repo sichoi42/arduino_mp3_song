@@ -8,6 +8,7 @@
 /*define for mp3*/
 #define R -1
 #define BIT_1 500
+//int cnt = 0;
 /***************/
 /*fixed Tone library*/
 #include <Tone.h>
@@ -81,7 +82,10 @@ void play_mp3()
     //delay(h_dur + 10);
     //delay(min(m_dur, h_dur[0], h_dur[1]));
     if (cnt >= len)
+    {
         flag = PIANO;
+        cnt = 0;
+    }
     //Serial.println(cnt);
 }
 
@@ -96,7 +100,7 @@ void recording()
     int           m_start[6] = {0, };
     static int    m_end[6] = {0, };
     static int    dur_interval[6] = {0, };
-    
+
     for (int i=0;i<6;i++)
     {
         if (i == 0 && digitalRead(8) == 0)
@@ -182,7 +186,7 @@ void loop()
         flag = MP3;
     /*if (digitalRead(2) == 0)
         flag = RECORDER;*/
-    //Serial.println(digitalRead(22));
+    Serial.println(digitalRead(22));
     if (flag == MP3)
         play_mp3();
     /*if (flag == RECORDER)
