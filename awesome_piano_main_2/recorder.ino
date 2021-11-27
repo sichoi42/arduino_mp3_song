@@ -310,6 +310,7 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
     int    cnt = 0;
     int    ok = 0;
 
+    Serial.println("PLAY!");
     while (1)
     {
         //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
@@ -344,6 +345,7 @@ void recording()
     unsigned long rd_start = millis();//녹음 시작버튼이 눌린 시간 측정.
     int8_t        checker[5] = {0, };
 
+    Serial.println("Recording selected!");
     while (1)
     {   
         play_piano();//누른 버튼음을 들을 수 있게 play_piano함수 실행.
@@ -361,7 +363,11 @@ void recording()
         if (checker[0] && checker[1] && checker[2] && checker[3] && checker[4])
             break ;
     }
+    Serial.println("Recording completed!");
+    Serial.println("Wait a moment to play recorded song...");
+    ft_delay(30000);
     //녹음한 배열을 재생.
     play_record();
+    Serial.println("Back to piano mode!");
     flag = PIANO;
 }

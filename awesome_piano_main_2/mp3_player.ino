@@ -175,7 +175,7 @@ void play_mp3()
     int    h2_len = 0;
     int    dly;
 
-    Serial.println("mp3 selected!");
+    Serial.println("MP3 selected!");
     ft_delay(30000);
     while (1)
     {
@@ -230,4 +230,5 @@ void play_mp3()
     harmony = 0;
     harmony2 = 0;
     flag = PIANO;
+    Serial.println("Back to piano mode!");
 }

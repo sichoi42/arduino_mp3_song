@@ -55,17 +55,30 @@ void play_piano()//브레드보드 위의 버튼을 눌렀을 때 해당하는 �
     if (flag == PIANO || flag == RECORDER)
     {
         if (digitalRead(8) == 0)
+        {
             speaker[0].play(NOTE_C4, 100);
+            Serial.println("4옥타브 도");
+        }
         if (digitalRead(9) == 0)
+        {
             speaker[1].play(NOTE_D4, 100);
+            Serial.println("4옥타브 레");
+        }
         if (digitalRead(10) == 0)
+        {
             speaker[2].play(NOTE_E4, 100);
+            Serial.println("4옥타브 미");
+        }
         if (digitalRead(11) == 0)
+        {
             speaker[3].play(NOTE_F4, 100);
+            Serial.println("4옥타브 파");
+        }
         if (digitalRead(12) == 0)
+        {
             speaker[4].play(NOTE_G4, 100);
-        /*if (digitalRead(13) == 0)
-            speaker[5].play(NOTE_A4, 100);*/
+            Serial.println("4옥타브 솔");
+        }
     }
 }
 
