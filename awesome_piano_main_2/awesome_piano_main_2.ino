@@ -30,6 +30,12 @@ int16_t (*melody3)[2] = 0;
 int16_t (*harmony)[2] = 0;
 int16_t (*harmony2)[2] = 0;
 
+void ft_delay(int n)//delay func not using timer, n==30000 -> about 2500ms delay
+{
+    for (int i=0;i<n;i++)
+        ;
+}
+
 void setup()
 {
   int8_t i;

@@ -24,10 +24,10 @@ int play_melody(int len)//mp3의 melody파트 재생
         if (m > 0)//음이 휴식 상태가 아닐시(휴식 음을 매크로로 R == -1로 지정)
         {
             speaker[0].play(m);//해당음을 재생
-            start = millis();//해당 음이 울리기 시작한 시간을 잼.
         }
+        start = millis();//해당 음이 울리기 시작한 시간을 잼.
+        cnt++;
     }
-    cnt++;
     return (0);//노래가 아직 남아있으면 0을 반환해 재생상태임을 알림.
 }
 
@@ -56,10 +56,10 @@ int play_melody2(int len)//mp3의 melody2파트 재생
         if (m2 > 0)
         {
             speaker[1].play(m2);
-            start = millis();
         }
+        start = millis();
+        cnt++;
     }
-    cnt++;
     return (0);
 }
 
@@ -88,10 +88,10 @@ int play_melody3(int len)//mp3의 melody3파트 재생
         if (m3 > 0)
         {
             speaker[2].play(m3);
-            start = millis();
         }
+        start = millis();
+        cnt++;
     }
-    cnt++;
     return (0);
 }
 
@@ -120,10 +120,10 @@ int play_harmony(int len)//mp3의 harmony파트 재생
         if (h > 0)
         {
             speaker[3].play(h);
-            start = millis();
         }
+        start = millis();
+        cnt++;
     }
-    cnt++;
     return (0);
 }
 
@@ -152,10 +152,10 @@ int play_harmony2(int len)//mp3의 harmony2파트 재생
         if (h2 > 0)
         {
             speaker[4].play(h2);
-            start = millis();
         }
+        start = millis();
+        cnt++;
     }
-    cnt++;
     return (0);
 }
 
@@ -166,25 +166,37 @@ void play_mp3()
     int8_t m3_flag = 0;
     int8_t h_flag = 0;
     int8_t h2_flag = 0;
-    int    cnt = 0;
+    int    cnt = -1;
     int    ok = 0;
     int    m_len = 0;
     int    m2_len = 0;
     int    m3_len = 0;
     int    h_len = 0;
     int    h2_len = 0;
+    int    dly;
 
+    Serial.println("mp3 selected!");
+    ft_delay(30000);
     while (1)
     {
         if (digitalRead(SELECT_MP3) == 0)//버튼을 눌러 노래 선택
+        {
             cnt++;
+            if (cnt % TOTAL_SONG == 0)
+                Serial.println("SPARKLE");
+            else if (cnt % TOTAL_SONG == 1)
+                Serial.println("christmas");
+            else
+                Serial.println("xxx");
+            ft_delay(30000);
+        }
         if (digitalRead(OK) == 0)
             ok = 1;
         if (ok)//OK버튼이 눌렸으면 해당하는 음악을 재생
         {
             if (cnt % TOTAL_SONG == 0)
             {
-                Serial.println("SPARKLE selected!");
+                Serial.println("play SPARKLE!");
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
