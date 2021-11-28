@@ -32,9 +32,9 @@ int16_t (*melody3)[2] = 0;
 int16_t (*melody4)[2] = 0;
 int16_t (*melody5)[2] = 0;
 
-void ft_delay(int n)//delay func not using timer, n==30000 -> about 2500ms delay
+void ft_delay(int16_t n)//delay func not using timer, n==30000 -> about 2500ms delay
 {
-    for (int i=0;i<n;i++)
+    for (int16_t i=0;i<n;i++)
         ;
 }
 
@@ -59,27 +59,27 @@ void play_piano()//브레드보드 위의 버튼을 눌렀을 때 해당하는 �
         if (digitalRead(8) == 0)
         {
             speaker[0].play(NOTE_C4, 100);
-            Serial.println("4옥타브 도");
+            Serial.println(F("4옥타브 도"));
         }
         if (digitalRead(9) == 0)
         {
             speaker[1].play(NOTE_D4, 100);
-            Serial.println("4옥타브 레");
+            Serial.println(F("4옥타브 레"));
         }
         if (digitalRead(10) == 0)
         {
             speaker[2].play(NOTE_E4, 100);
-            Serial.println("4옥타브 미");
+            Serial.println(F("4옥타브 미"));
         }
         if (digitalRead(11) == 0)
         {
             speaker[3].play(NOTE_F4, 100);
-            Serial.println("4옥타브 파");
+            Serial.println(F("4옥타브 파"));
         }
         if (digitalRead(12) == 0)
         {
             speaker[4].play(NOTE_G4, 100);
-            Serial.println("4옥타브 솔");
+            Serial.println(F("4옥타브 솔"));
         }
     }
 }

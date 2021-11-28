@@ -1,10 +1,10 @@
-int play_melody(int len)//mp3의 melody파트 재생
+int8_t play_melody(int16_t len)//mp3의 melody파트 재생
 {
     if (melody == 0)//사용되지 않는 파트라면 1을 반환해 종료 상태임을 알림.
         return (1);
-    static int            cnt = 0;
-    int                   m = 0;//재생중인 음
-    static int            m_dur = 0;//재생중인 음의 길이
+    static int16_t            cnt = 0;
+    int16_t                   m = 0;//재생중인 음
+    static int16_t            m_dur = 0;//재생중인 음의 길이
     static unsigned long  start = millis();
 
     //해당파트가 끝날 시, 변수들은 초기상태로 초기화
@@ -31,13 +31,13 @@ int play_melody(int len)//mp3의 melody파트 재생
     return (0);//노래가 아직 남아있으면 0을 반환해 재생상태임을 알림.
 }
 
-int play_melody2(int len)//mp3의 melody2파트 재생
+int8_t play_melody2(int16_t len)//mp3의 melody2파트 재생
 {
     if (melody2 == 0)
         return (1);
-    static int  cnt = 0;
-    int         m2 = 0;//current melody
-    static int  m2_dur = 0;//current melody duration
+    static int16_t  cnt = 0;
+    int16_t         m2 = 0;//current melody
+    static int16_t  m2_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
     if (cnt >= len || (flag == RECORDER && melody2[cnt][0] == 0))
@@ -63,13 +63,13 @@ int play_melody2(int len)//mp3의 melody2파트 재생
     return (0);
 }
 
-int play_melody3(int len)//mp3의 melody3파트 재생
+int8_t play_melody3(int16_t len)//mp3의 melody3파트 재생
 {
     if (melody3 == 0)
         return (1);
-    static int  cnt = 0;
-    int         m3 = 0;//current melody
-    static int  m3_dur = 0;//current melody duration
+    static int16_t  cnt = 0;
+    int16_t         m3 = 0;//current melody
+    static int16_t  m3_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
     if (cnt >= len || (flag == RECORDER && melody3[cnt][0] == 0))
@@ -95,13 +95,13 @@ int play_melody3(int len)//mp3의 melody3파트 재생
     return (0);
 }
 
-int play_melody4(int len)//mp3의 melody4파트 재생
+int8_t play_melody4(int16_t len)//mp3의 melody4파트 재생
 {
     if (melody4 == 0)
         return (1);
-    static int  cnt = 0;
-    int         m4 = 0;//current melody
-    static int  m4_dur = 0;//current melody duration
+    static int16_t  cnt = 0;
+    int16_t         m4 = 0;//current melody
+    static int16_t  m4_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
     if (cnt >= len || (flag == RECORDER && melody4[cnt][0] == 0))
@@ -127,13 +127,13 @@ int play_melody4(int len)//mp3의 melody4파트 재생
     return (0);
 }
 
-int play_melody5(int len)//mp3의 melody5파트 재생
+int8_t play_melody5(int16_t len)//mp3의 melody5파트 재생
 {
     if (melody5 == 0)
         return (1);
-    static int  cnt = 0;
-    int         m5 = 0;//current melody
-    static int  m5_dur = 0;//current melody duration
+    static int16_t  cnt = 0;
+    int16_t         m5 = 0;//current melody
+    static int16_t  m5_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
     if (cnt >= len || (flag == RECORDER && melody5[cnt][0] == 0))
@@ -166,16 +166,15 @@ void play_mp3()
     int8_t m3_flag = 0;
     int8_t m4_flag = 0;
     int8_t m5_flag = 0;
-    int    cnt = -1;
-    int    ok = 0;
-    int    m_len = 0;
-    int    m2_len = 0;
-    int    m3_len = 0;
-    int    m4_len = 0;
-    int    m5_len = 0;
-    int    dly;
+    int8_t    cnt = -1;
+    int8_t    ok = 0;
+    int16_t    m_len = 0;
+    int16_t    m2_len = 0;
+    int16_t    m3_len = 0;
+    int16_t    m4_len = 0;
+    int16_t    m5_len = 0;
 
-    Serial.println("MP3 selected!");
+    Serial.println(F("MP3 selected!"));
     ft_delay(30000);
     while (1)
     {
@@ -183,11 +182,11 @@ void play_mp3()
         {
             cnt++;
             if (cnt % TOTAL_SONG == 0)
-                Serial.println("SPARKLE");
+                Serial.println(F("SPARKLE"));
             else if (cnt % TOTAL_SONG == 1)
-                Serial.println("LAST CHRISTMAS");
+                Serial.println(F("LAST CHRISTMAS"));
             else
-                Serial.println("MOVING CASTLE OF HOWL");
+                Serial.println(F("MOVING CASTLE OF HOWL"));
             ft_delay(30000);
         }
         if (digitalRead(OK) == 0)
@@ -196,7 +195,7 @@ void play_mp3()
         {
             if (cnt % TOTAL_SONG == 0)
             {
-                Serial.println("play SPARKLE!");
+                Serial.println(F("play SPARKLE!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
@@ -211,7 +210,7 @@ void play_mp3()
             }
             else if (cnt % TOTAL_SONG == 1)
             {
-                Serial.println("play LAST CHRISTMAS!");
+                Serial.println(F("play LAST CHRISTMAS!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
@@ -220,7 +219,7 @@ void play_mp3()
             }
             else
             {
-                Serial.println("play MOVING CASTLE OF HOWL!");
+                Serial.println(F("play MOVING CASTLE OF HOWL!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = howl_melody;
                 melody2 = howl_melody2;
@@ -254,5 +253,5 @@ void play_mp3()
     melody4 = 0;
     melody5 = 0;
     flag = PIANO;
-    Serial.println("Back to piano mode!");
+    Serial.println(F("Back to piano mode!"));
 }

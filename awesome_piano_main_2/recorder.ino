@@ -1,14 +1,14 @@
 int16_t recorder[5][100][2];//녹음된 곡을 저장할 배열.
 
-int record_melody(unsigned long rd_start)//'도'음을 녹음.
+int8_t record_melody(unsigned long rd_start)//'도'음을 녹음.
 {
     static unsigned long m_start;
     static unsigned long m_end;
-    static int  cnt;
-    static int  checker;
-    static int  dur_interval;
-    static int  m;
-    static int  m_dur;
+    static int8_t  cnt;
+    static int8_t  checker;
+    static int16_t  dur_interval;
+    static int16_t  m;
+    static int16_t  m_dur;
 
     if (digitalRead(8) == 0)//피아노 버튼이 눌렸을 시
     {
@@ -60,15 +60,15 @@ int record_melody(unsigned long rd_start)//'도'음을 녹음.
     return (0);
 }
 
-int record_melody2(unsigned long rd_start)
+int8_t record_melody2(unsigned long rd_start)
 {
     static unsigned long m_start;
     static unsigned long m_end;
-    static int  cnt;
-    static int  checker;
-    static int  dur_interval;
-    static int  m;
-    static int  m_dur;
+    static int8_t  cnt;
+    static int8_t  checker;
+    static int16_t  dur_interval;
+    static int16_t  m;
+    static int16_t  m_dur;
 
     if (digitalRead(9) == 0)
     {
@@ -120,15 +120,15 @@ int record_melody2(unsigned long rd_start)
     return (0);
 }
 
-int record_melody3(unsigned long rd_start)
+int8_t record_melody3(unsigned long rd_start)
 {
     static unsigned long m_start;
     static unsigned long m_end;
-    static int  cnt;
-    static int  checker;
-    static int  dur_interval;
-    static int  m;
-    static int  m_dur;
+    static int8_t  cnt;
+    static int8_t  checker;
+    static int16_t  dur_interval;
+    static int16_t  m;
+    static int16_t  m_dur;
 
     if (digitalRead(10) == 0)
     {
@@ -180,15 +180,15 @@ int record_melody3(unsigned long rd_start)
     return (0);
 }
 
-int record_melody4(unsigned long rd_start)
+int8_t record_melody4(unsigned long rd_start)
 {
     static unsigned long m_start;
     static unsigned long m_end;
-    static int  cnt;
-    static int  checker;
-    static int  dur_interval;
-    static int  m;
-    static int  m_dur;
+    static int8_t  cnt;
+    static int8_t  checker;
+    static int16_t  dur_interval;
+    static int16_t  m;
+    static int16_t  m_dur;
 
     if (digitalRead(11) == 0)
     {
@@ -240,15 +240,15 @@ int record_melody4(unsigned long rd_start)
     return (0);
 }
 
-int record_melody5(unsigned long rd_start)
+int8_t record_melody5(unsigned long rd_start)
 {
     static unsigned long m_start;
     static unsigned long m_end;
-    static int  cnt;
-    static int  checker;
-    static int  dur_interval;
-    static int  m;
-    static int  m_dur;
+    static int8_t  cnt;
+    static int8_t  checker;
+    static int16_t  dur_interval;
+    static int16_t  m;
+    static int16_t  m_dur;
 
     if (digitalRead(12) == 0)
     {
@@ -307,8 +307,6 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
     int8_t m3_flag = 0;
     int8_t m4_flag = 0;
     int8_t m5_flag = 0;
-    int    cnt = 0;
-    int    ok = 0;
 
     Serial.println("PLAY!");
     while (1)
@@ -345,7 +343,7 @@ void recording()
     unsigned long rd_start = millis();//녹음 시작버튼이 눌린 시간 측정.
     int8_t        checker[5] = {0, };
 
-    Serial.println("Recording selected!");
+    Serial.println(F("Recording selected!"));
     while (1)
     {   
         play_piano();//누른 버튼음을 들을 수 있게 play_piano함수 실행.
@@ -363,11 +361,11 @@ void recording()
         if (checker[0] && checker[1] && checker[2] && checker[3] && checker[4])
             break ;
     }
-    Serial.println("Recording completed!");
-    Serial.println("Wait a moment to play recorded song...");
+    Serial.println(F("Recording completed!"));
+    Serial.println(F("Wait a moment to play recorded song..."));
     ft_delay(30000);
     //녹음한 배열을 재생.
     play_record();
-    Serial.println("Back to piano mode!");
+    Serial.println(F("Back to piano mode!"));
     flag = PIANO;
 }
