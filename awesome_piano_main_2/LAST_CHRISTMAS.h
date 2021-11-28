@@ -211,9 +211,10 @@ int16_t christmas_melody[][2] =
 	{NOTE_E5, BIT_1 * 0.5},
 	{NOTE_D5, BIT_1 * 1},
 	/********************/
+  {R, BIT_1 * 3},
 };
 
-int16_t christmas_harmony[][2] =
+int16_t christmas_melody2[][2] =
 {
 	{NOTE_C3, BIT_1 * 1},
 	{NOTE_C3, BIT_1 * 1},
@@ -375,4 +376,5 @@ int16_t christmas_harmony[][2] =
 	{NOTE_G2, BIT_1 * 1},
 	{NOTE_G2, BIT_1 * 1},
 	/********************/
+  {R, BIT_1 * 3},
 };

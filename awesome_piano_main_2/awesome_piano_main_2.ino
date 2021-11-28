@@ -20,6 +20,8 @@
 /*********************/
 /*include mp3 song*/
 #include "SPARKLE.h"
+#include "LAST_CHRISTMAS.h"
+#include "MOVING_CASTLE_OF_HOWL.h"
 /*********************/
 
 Tone speaker[5];
@@ -27,8 +29,8 @@ int8_t  flag = PIANO;
 int16_t (*melody)[2] = 0;
 int16_t (*melody2)[2] = 0;
 int16_t (*melody3)[2] = 0;
-int16_t (*harmony)[2] = 0;
-int16_t (*harmony2)[2] = 0;
+int16_t (*melody4)[2] = 0;
+int16_t (*melody5)[2] = 0;
 
 void ft_delay(int n)//delay func not using timer, n==30000 -> about 2500ms delay
 {

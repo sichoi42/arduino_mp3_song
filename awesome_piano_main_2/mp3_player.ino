@@ -95,31 +95,31 @@ int play_melody3(int len)//mp3의 melody3파트 재생
     return (0);
 }
 
-int play_harmony(int len)//mp3의 harmony파트 재생
+int play_melody4(int len)//mp3의 melody4파트 재생
 {
-    if (harmony == 0)
+    if (melody4 == 0)
         return (1);
     static int  cnt = 0;
-    int         h = 0;//current melody
-    static int  h_dur = 0;//current melody duration
+    int         m4 = 0;//current melody
+    static int  m4_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
-    if (cnt >= len || (flag == RECORDER && harmony[cnt][0] == 0))
+    if (cnt >= len || (flag == RECORDER && melody4[cnt][0] == 0))
     {
       cnt = 0;
-      h_dur = 0;
+      m4_dur = 0;
       start = millis();
       speaker[3].stop();
       return (1);
     }
-    if (millis() - start >= h_dur)
+    if (millis() - start >= m4_dur)
     {
         speaker[3].stop();
-        h = harmony[cnt][0];
-        h_dur = harmony[cnt][1];
-        if (h > 0)
+        m4 = melody4[cnt][0];
+        m4_dur = melody4[cnt][1];
+        if (m4 > 0)
         {
-            speaker[3].play(h);
+            speaker[3].play(m4);
         }
         start = millis();
         cnt++;
@@ -127,31 +127,31 @@ int play_harmony(int len)//mp3의 harmony파트 재생
     return (0);
 }
 
-int play_harmony2(int len)//mp3의 harmony2파트 재생
+int play_melody5(int len)//mp3의 melody5파트 재생
 {
-    if (harmony2 == 0)
+    if (melody5 == 0)
         return (1);
     static int  cnt = 0;
-    int         h2 = 0;//current melody
-    static int  h2_dur = 0;//current melody duration
+    int         m5 = 0;//current melody
+    static int  m5_dur = 0;//current melody duration
     static unsigned long  start = millis();
 
-    if (cnt >= len || (flag == RECORDER && harmony2[cnt][0] == 0))
+    if (cnt >= len || (flag == RECORDER && melody5[cnt][0] == 0))
     {
       cnt = 0;
-      h2_dur = 0;
+      m5_dur = 0;
       start = millis();
       speaker[4].stop();
       return (1);
     }
-    if (millis() - start >= h2_dur)
+    if (millis() - start >= m5_dur)
     {
         speaker[4].stop();
-        h2 = harmony2[cnt][0];
-        h2_dur = harmony2[cnt][1];
-        if (h2 > 0)
+        m5 = melody5[cnt][0];
+        m5_dur = melody5[cnt][1];
+        if (m5 > 0)
         {
-            speaker[4].play(h2);
+            speaker[4].play(m5);
         }
         start = millis();
         cnt++;
@@ -164,15 +164,15 @@ void play_mp3()
     int8_t m_flag = 0;
     int8_t m2_flag = 0;
     int8_t m3_flag = 0;
-    int8_t h_flag = 0;
-    int8_t h2_flag = 0;
+    int8_t m4_flag = 0;
+    int8_t m5_flag = 0;
     int    cnt = -1;
     int    ok = 0;
     int    m_len = 0;
     int    m2_len = 0;
     int    m3_len = 0;
-    int    h_len = 0;
-    int    h2_len = 0;
+    int    m4_len = 0;
+    int    m5_len = 0;
     int    dly;
 
     Serial.println("MP3 selected!");
@@ -185,9 +185,9 @@ void play_mp3()
             if (cnt % TOTAL_SONG == 0)
                 Serial.println("SPARKLE");
             else if (cnt % TOTAL_SONG == 1)
-                Serial.println("christmas");
+                Serial.println("LAST CHRISTMAS");
             else
-                Serial.println("xxx");
+                Serial.println("MOVING CASTLE OF HOWL");
             ft_delay(30000);
         }
         if (digitalRead(OK) == 0)
@@ -201,13 +201,37 @@ void play_mp3()
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
                 melody3 = sparkle_melody3;
-                harmony = sparkle_harmony;
-                harmony2 = sparkle_harmony2;
+                melody4 = sparkle_melody4;
+                melody5 = sparkle_melody5;
                 m_len = sizeof(sparkle_melody) / sizeof(int16_t) / 2;
                 m2_len = sizeof(sparkle_melody2) / sizeof(int16_t) / 2;
                 m3_len = sizeof(sparkle_melody3) / sizeof(int16_t) / 2;
-                h_len = sizeof(sparkle_harmony) / sizeof(int16_t) / 2;
-                h2_len = sizeof(sparkle_harmony2) / sizeof(int16_t) / 2;
+                m4_len = sizeof(sparkle_melody4) / sizeof(int16_t) / 2;
+                m5_len = sizeof(sparkle_melody5) / sizeof(int16_t) / 2;
+            }
+            else if (cnt % TOTAL_SONG == 1)
+            {
+                Serial.println("play LAST CHRISTMAS!");
+                //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
+                melody = sparkle_melody;
+                melody2 = sparkle_melody2;
+                m_len = sizeof(christmas_melody) / sizeof(int16_t) / 2;
+                m2_len = sizeof(christmas_melody2) / sizeof(int16_t) / 2;
+            }
+            else
+            {
+                Serial.println("play MOVING CASTLE OF HOWL!");
+                //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
+                melody = howl_melody;
+                melody2 = howl_melody2;
+                melody3 = howl_melody3;
+                melody4 = howl_melody4;
+                melody5 = howl_melody5;
+                m_len = sizeof(howl_melody) / sizeof(int16_t) / 2;
+                m2_len = sizeof(howl_melody2) / sizeof(int16_t) / 2;
+                m3_len = sizeof(howl_melody3) / sizeof(int16_t) / 2;
+                m4_len = sizeof(howl_melody4) / sizeof(int16_t) / 2;
+                m5_len = sizeof(howl_melody5) / sizeof(int16_t) / 2;
             }
             break ;
         }
@@ -217,18 +241,18 @@ void play_mp3()
         m_flag = play_melody(m_len);
         m2_flag = play_melody2(m2_len);
         m3_flag = play_melody3(m3_len);
-        h_flag = play_harmony(h_len);
-        h2_flag = play_harmony2(h2_len);
+        m4_flag = play_melody4(m4_len);
+        m5_flag = play_melody5(m5_len);
         //모든 멜로디, 화음부가 연주가 끝나면 while문 종료
-        if (m_flag && m2_flag && m3_flag && h_flag && h2_flag)
+        if (m_flag && m2_flag && m3_flag && m4_flag && m5_flag)
             break ;
     }
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경
     melody = 0;
     melody2 = 0;
     melody3 = 0;
-    harmony = 0;
-    harmony2 = 0;
+    melody4 = 0;
+    melody5 = 0;
     flag = PIANO;
     Serial.println("Back to piano mode!");
 }

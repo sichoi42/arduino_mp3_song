@@ -305,8 +305,8 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
     int8_t m_flag = 0;
     int8_t m2_flag = 0;
     int8_t m3_flag = 0;
-    int8_t h_flag = 0;
-    int8_t h2_flag = 0;
+    int8_t m4_flag = 0;
+    int8_t m5_flag = 0;
     int    cnt = 0;
     int    ok = 0;
 
@@ -317,8 +317,8 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
         melody = recorder[0];
         melody2 = recorder[1];
         melody3 = recorder[2];
-        harmony = recorder[3];
-        harmony2 = recorder[4];
+        melody4 = recorder[3];
+        melody5 = recorder[4];
         break ;
     }
     while (1)
@@ -326,18 +326,18 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
         m_flag = play_melody(100);
         m2_flag = play_melody2(100);
         m3_flag = play_melody3(100);
-        h_flag = play_harmony(100);
-        h2_flag = play_harmony2(100);
+        m4_flag = play_melody4(100);
+        m5_flag = play_melody5(100);
         //모든 멜로디, 화음부가 연주가 끝나면 while문 종료
-        if (m_flag && m2_flag && m3_flag && h_flag && h2_flag)
+        if (m_flag && m2_flag && m3_flag && m4_flag && m5_flag)
             break ;
     }
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경
     melody = 0;
     melody2 = 0;
     melody3 = 0;
-    harmony = 0;
-    harmony2 = 0;
+    melody4 = 0;
+    melody5 = 0;
 }
 
 void recording()
