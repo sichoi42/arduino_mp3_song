@@ -4,10 +4,7 @@
 #define PIANO 1
 #define MP3 2
 #define RECORDER 3
-#define OK 25
-/*********************/
-/*define for recoder*/
-#define SELECT_RECORDER 27
+#define PITCH_GAME 4
 /*********************/
 /*external library*/
 #include <Tone.h>//https://github.com/sichoi42/Tone
@@ -20,12 +17,15 @@
 #include "MOVING_CASTLE_OF_HOWL.h"
 /*********************/
 /*define for mp3*/
+#define TOTAL_SONG 3
 #ifndef BIT_1
 #define BIT_1 600
 #endif
-#define TOTAL_SONG 3
-#define SELECT_MP3 23
 /*********************/
+#define OK 23
+#define SELECT_MP3 25
+#define SELECT_RECORDER 27
+#define SELECT_PITCH_GAME 29
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 //LiquidCrystal_I2C lcd(0x3F, 16, 2);
@@ -47,18 +47,20 @@ void ft_delay(int dly)//custom delay function only using millis
 
 void setup()
 {
-  int8_t i;
-  for (i=0;i<5;i++)
-  {
-     pinMode(i + 8, INPUT_PULLUP);
-     speaker[i].begin(i + 2);//해당 핀을 통해 소리가 나올 수 있도록 준비.
-  }
-  pinMode(SELECT_MP3, INPUT_PULLUP);//mp3모드로 전환할 때 + mp3에서 곡을 고를 때 사용
-  pinMode(SELECT_RECORDER, INPUT_PULLUP);//recorder모드로 전환할 떄 사용
-  pinMode(OK, INPUT_PULLUP);//mp3에서 재생할 곡을 결정하거나, recorder에서 녹음을 완료했을 때 사용
-  //Serial.begin(9600);
-  lcd.init();
-  lcd.backlight();  
+    int8_t i;
+    for (i=0;i<5;i++)
+    {
+       pinMode(i + 8, INPUT_PULLUP);
+       speaker[i].begin(i + 2);//해당 핀을 통해 소리가 나올 수 있도록 준비.
+    }
+    pinMode(SELECT_MP3, INPUT_PULLUP);//mp3모드로 전환할 때 + mp3에서 곡을 고를 때 사용
+    pinMode(SELECT_RECORDER, INPUT_PULLUP);//recorder모드로 전환할 떄 사용
+    pinMode(SELECT_PITCH_GAME, INPUT_PULLUP);//절대음감 게임 모드로 전환할 때 사용
+    pinMode(OK, INPUT_PULLUP);//mp3에서 재생할 곡을 결정하거나, recorder에서 녹음을 완료했을 때 사용
+    randomSeed(analogRead(0));//절대음감 게임에서 랜덤으로 음이 나오게 하기 위해 seed 설정
+    //Serial.begin(9600);
+    lcd.init();
+    lcd.backlight();  
 }
 
 void play_piano()//브레드보드 위의 버튼을 눌렀을 때 해당하는 음이 울림.
@@ -99,4 +101,8 @@ void loop()//플레이 모드를 선택하는 루프, default == 피아노 모�
         flag = RECORDER;
     if (flag == RECORDER)
         recording();
+    if (digitalRead(SELECT_PITCH_GAME) == 0)//절대음감 게임 모드로 전환
+        flag = PITCH_GAME;
+    if (flag == PITCH_GAME)
+        absolute_pitch_game();
 }
