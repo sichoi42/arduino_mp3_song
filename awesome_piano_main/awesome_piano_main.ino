@@ -10,7 +10,7 @@
 #define SELECT_RECORDER 27
 /*********************/
 /*external library*/
-#include <Tone.h>
+#include <Tone.h>//https://github.com/sichoi42/Tone
 #include <LiquidCrystal_I2C.h>
 /*********************/
 /*include mp3 song*/
@@ -54,8 +54,8 @@ void setup()
      speaker[i].begin(i + 2);//해당 핀을 통해 소리가 나올 수 있도록 준비.
   }
   pinMode(SELECT_MP3, INPUT_PULLUP);//mp3모드로 전환할 때 + mp3에서 곡을 고를 때 사용
-  pinMode(SELECT_RECORDER, INPUT_PULLUP);//recoder모드로 전환할 떄 + 녹음을 마쳤을 때 사용
-  pinMode(OK, INPUT_PULLUP);//mp3에서 재생할 곡을 결정했을 때 확인 버튼
+  pinMode(SELECT_RECORDER, INPUT_PULLUP);//recorder모드로 전환할 떄 사용
+  pinMode(OK, INPUT_PULLUP);//mp3에서 재생할 곡을 결정하거나, recorder에서 녹음을 완료했을 때 사용
   //Serial.begin(9600);
   lcd.init();
   lcd.backlight();  
@@ -95,7 +95,7 @@ void loop()//플레이 모드를 선택하는 루프, default == 피아노 모�
         flag = MP3;
     if (flag == MP3)
         play_mp3();
-    if (digitalRead(SELECT_RECORDER) == 0)//recoder 모드로 전환
+    if (digitalRead(SELECT_RECORDER) == 0)//recorder 모드로 전환
         flag = RECORDER;
     if (flag == RECORDER)
         recording();

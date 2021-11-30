@@ -256,6 +256,7 @@ void play_mp3()
             break ;
         }
     }
+    ft_delay(1000);
     lcd.clear();
     lcd.setCursor(0, 0);
     if (cnt % TOTAL_SONG == 0)
@@ -282,7 +283,6 @@ void play_mp3()
         if (m_flag[0] && m_flag[1] && m_flag[2] && m_flag[3] && m_flag[4])
             break ;
     }
-    lcd.clear();
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경
     melody = 0;
     melody2 = 0;
