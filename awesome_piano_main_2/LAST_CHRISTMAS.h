@@ -1,3 +1,5 @@
+#define BIT_1 600
+
 int16_t christmas_melody[][2] =
 {
 	{NOTE_D5, BIT_1 * 0.5},

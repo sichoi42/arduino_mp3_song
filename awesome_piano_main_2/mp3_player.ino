@@ -161,23 +161,16 @@ int8_t play_melody5(int16_t len)//mp3의 melody5파트 재생
 
 void play_mp3()
 {
-    int8_t m_flag = 0;
-    int8_t m2_flag = 0;
-    int8_t m3_flag = 0;
-    int8_t m4_flag = 0;
-    int8_t m5_flag = 0;
-    int8_t    cnt = -1;
-    int8_t    ok = 0;
-    int16_t    m_len = 0;
-    int16_t    m2_len = 0;
-    int16_t    m3_len = 0;
-    int16_t    m4_len = 0;
-    int16_t    m5_len = 0;
+    int8_t      m_flag[5] = {0, };
+    int16_t     m_len[5] = {0, };
+    int8_t      cnt = -1;
+    int8_t      ok = 0;
 
     Serial.println(F("MP3 selected!"));
-    ft_delay(30000);
+    ft_delay(1000);
     while (1)
     {
+        //start = millis();
         if (digitalRead(SELECT_MP3) == 0)//버튼을 눌러 노래 선택
         {
             cnt++;
@@ -187,7 +180,7 @@ void play_mp3()
                 Serial.println(F("LAST CHRISTMAS"));
             else
                 Serial.println(F("MOVING CASTLE OF HOWL"));
-            ft_delay(30000);
+            ft_delay(1000);
         }
         if (digitalRead(OK) == 0)
             ok = 1;
@@ -237,13 +230,18 @@ void play_mp3()
     }
     while (1)
     {
-        m_flag = play_melody(m_len);
-        m2_flag = play_melody2(m2_len);
-        m3_flag = play_melody3(m3_len);
-        m4_flag = play_melody4(m4_len);
-        m5_flag = play_melody5(m5_len);
-        //모든 멜로디, 화음부가 연주가 끝나면 while문 종료
-        if (m_flag && m2_flag && m3_flag && m4_flag && m5_flag)
+        if (!m_flag[0])
+            m_flag[0] = play_melody(m_len[0]);
+        if (!m_flag[1])
+            m_flag[1] = play_melody2(m_len[1]);
+        if (!m_flag[2])
+            m_flag[2] = play_melody3(m_len[2]);
+        if (!m_flag[3])
+            m_flag[3] = play_melody4(m_len[3]);
+        if (!m_flag[4])
+            m_flag[4] = play_melody5(m_len[4]);
+        //멜로디가 끝나서 flag에 1이 반환되면 while문 종료
+        if (m_flag[0] && m_flag[1] && m_flag[2] && m_flag[3] && m_flag[4])
             break ;
     }
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경

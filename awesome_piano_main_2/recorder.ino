@@ -51,7 +51,7 @@ int8_t record_melody(unsigned long rd_start)//'도'음을 녹음.
     else if (checker == 3)//피아노 버튼을 떼었을 때 시각 저장.
         dur_interval = millis() - m_end;
         
-    if (digitalRead(SELECT_RECORDER) == 0)//녹음을 완료하였을 시 변수를 초기화하고 1반환.
+    if (digitalRead(OK) == 0)//녹음을 완료하였을 시 변수를 초기화하고 1반환.
     {
         checker = 0;
         cnt = 0;
@@ -111,7 +111,7 @@ int8_t record_melody2(unsigned long rd_start)
     else if (checker == 3)
         dur_interval = millis() - m_end;
         
-    if (digitalRead(SELECT_RECORDER) == 0)
+    if (digitalRead(OK) == 0)
     {
         checker = 0;
         cnt = 0;
@@ -171,7 +171,7 @@ int8_t record_melody3(unsigned long rd_start)
     else if (checker == 3)
         dur_interval = millis() - m_end;
         
-    if (digitalRead(SELECT_RECORDER) == 0)
+    if (digitalRead(OK) == 0)
     {
         checker = 0;
         cnt = 0;
@@ -231,7 +231,7 @@ int8_t record_melody4(unsigned long rd_start)
     else if (checker == 3)
         dur_interval = millis() - m_end;
         
-    if (digitalRead(SELECT_RECORDER) == 0)
+    if (digitalRead(OK) == 0)
     {
         checker = 0;
         cnt = 0;
@@ -291,7 +291,7 @@ int8_t record_melody5(unsigned long rd_start)
     else if (checker == 3)
         dur_interval = millis() - m_end;
         
-    if (digitalRead(SELECT_RECORDER) == 0)
+    if (digitalRead(OK) == 0)
     {
         checker = 0;
         cnt = 0;
@@ -302,16 +302,12 @@ int8_t record_melody5(unsigned long rd_start)
 
 void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 녹음된 곡 재생에 활용.
 {
-    int8_t m_flag = 0;
-    int8_t m2_flag = 0;
-    int8_t m3_flag = 0;
-    int8_t m4_flag = 0;
-    int8_t m5_flag = 0;
+    int8_t m_flag[5] = {0, };
 
     Serial.println("PLAY!");
     while (1)
     {
-        //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
+        //포인터가 녹음한 노래가 저장되는 배열을 가르키게 함.
         melody = recorder[0];
         melody2 = recorder[1];
         melody3 = recorder[2];
@@ -321,13 +317,18 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
     }
     while (1)
     {
-        m_flag = play_melody(100);
-        m2_flag = play_melody2(100);
-        m3_flag = play_melody3(100);
-        m4_flag = play_melody4(100);
-        m5_flag = play_melody5(100);
-        //모든 멜로디, 화음부가 연주가 끝나면 while문 종료
-        if (m_flag && m2_flag && m3_flag && m4_flag && m5_flag)
+        if (!m_flag[0])
+            m_flag[0] = play_melody(100);
+        if (!m_flag[1])
+            m_flag[1] = play_melody2(100);
+        if (!m_flag[2])
+            m_flag[2] = play_melody3(100);
+        if (!m_flag[3])
+            m_flag[3] = play_melody4(100);
+        if (!m_flag[4])
+            m_flag[4] = play_melody5(100);
+        //모든 멜로디가 끝나면 while문 종료(모든 play_melody 함수가 1을 반환 했을시)
+        if (m_flag[0] && m_flag[1] && m_flag[2] && m_flag[3] && m_flag[4])
             break ;
     }
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경
@@ -348,22 +349,22 @@ void recording()
     {   
         play_piano();//누른 버튼음을 들을 수 있게 play_piano함수 실행.
         //녹음이 모두 마쳐지면 while문 탈출.
-        if (checker[0] != 1)
+        if (!checker[0])
             checker[0] = record_melody(rd_start);
-        if (checker[1] != 1)
+        if (!checker[1])
             checker[1] = record_melody2(rd_start);
-        if (checker[2] != 1)
+        if (!checker[2])
             checker[2] = record_melody3(rd_start);
-        if (checker[3] != 1)
+        if (!checker[3])
             checker[3] = record_melody4(rd_start);
-        if (checker[4] != 1)
+        if (!checker[4])
             checker[4] = record_melody5(rd_start);
         if (checker[0] && checker[1] && checker[2] && checker[3] && checker[4])
             break ;
     }
     Serial.println(F("Recording completed!"));
     Serial.println(F("Wait a moment to play recorded song..."));
-    ft_delay(30000);
+    ft_delay(2000);
     //녹음한 배열을 재생.
     play_record();
     Serial.println(F("Back to piano mode!"));

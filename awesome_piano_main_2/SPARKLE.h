@@ -1,3 +1,5 @@
+#define BIT_1 500
+
 int16_t sparkle_melody[][2] =
 {
   {NOTE_B4, BIT_1 * 0.5},

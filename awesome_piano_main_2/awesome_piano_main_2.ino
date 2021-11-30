@@ -5,15 +5,8 @@
 #define MP3 2
 #define RECORDER 3
 /*********************/
-/*define for mp3*/
-#define R -1
-#define BIT_1 500
-#define TOTAL_SONG 3
-#define SELECT_MP3 22
-#define OK 24
-/*********************/
 /*define for recoder*/
-#define SELECT_RECORDER 23
+#define SELECT_RECORDER 27
 /*********************/
 /*fixed Tone library*/
 #include <Tone.h>
@@ -22,6 +15,15 @@
 #include "SPARKLE.h"
 #include "LAST_CHRISTMAS.h"
 #include "MOVING_CASTLE_OF_HOWL.h"
+/*********************/
+/*define for mp3*/
+#define R -1
+#ifndef BIT_1
+#define BIT_1 600
+#endif
+#define TOTAL_SONG 3
+#define SELECT_MP3 23
+#define OK 25
 /*********************/
 
 Tone speaker[5];
@@ -32,10 +34,12 @@ int16_t (*melody3)[2] = 0;
 int16_t (*melody4)[2] = 0;
 int16_t (*melody5)[2] = 0;
 
-void ft_delay(int16_t n)//delay func not using timer, n==30000 -> about 2500ms delay
+void ft_delay(int dly)//custom delay function only using millis
 {
-    for (int16_t i=0;i<n;i++)
-        ;
+    unsigned long start = millis();
+
+    while (millis() - start <= dly)
+      ;
 }
 
 void setup()
@@ -44,7 +48,7 @@ void setup()
   for (i=0;i<5;i++)
   {
      pinMode(i + 8, INPUT_PULLUP);
-        speaker[i].begin(i + 2);//해당 핀을 통해 소리가 나올 수 있도록 준비.
+     speaker[i].begin(i + 2);//해당 핀을 통해 소리가 나올 수 있도록 준비.
   }
   pinMode(SELECT_MP3, INPUT_PULLUP);//mp3모드로 전환할 때 + mp3에서 곡을 고를 때 사용
   pinMode(SELECT_RECORDER, INPUT_PULLUP);//recoder모드로 전환할 떄 + 녹음을 마쳤을 때 사용
@@ -76,7 +80,7 @@ void play_piano()//브레드보드 위의 버튼을 눌렀을 때 해당하는 �
             speaker[3].play(NOTE_F4, 100);
             Serial.println(F("4옥타브 파"));
         }
-        if (digitalRead(12) == 0)
+        if (digitalRead(12) == 0) 
         {
             speaker[4].play(NOTE_G4, 100);
             Serial.println(F("4옥타브 솔"));

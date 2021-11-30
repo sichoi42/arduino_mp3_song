@@ -1,3 +1,5 @@
+#define BIT_1 600
+
 //8분음표 1마디에 3개
 int16_t howl_melody[][2] =
 {
