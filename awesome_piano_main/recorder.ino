@@ -304,7 +304,11 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
 {
     int8_t m_flag[5] = {0, };
 
-    Serial.println("PLAY!");
+    //Serial.println("PLAY!");
+    lcd.setCursor(0, 0);
+    lcd.print(F("Playing"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("recorded song.."));
     while (1)
     {
         //포인터가 녹음한 노래가 저장되는 배열을 가르키게 함.
@@ -337,6 +341,9 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
     melody3 = 0;
     melody4 = 0;
     melody5 = 0;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(F("Completed!"));
 }
 
 void recording()
@@ -344,7 +351,15 @@ void recording()
     unsigned long rd_start = millis();//녹음 시작버튼이 눌린 시간 측정.
     int8_t        checker[5] = {0, };
 
-    Serial.println(F("Recording selected!"));
+    //Serial.println(F("Recording selected!"));
+    lcd.setCursor(0, 0);
+    lcd.print(F("Recording"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("selected!"));
+    ft_delay(1000);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(F("Recording..."));
     while (1)
     {   
         play_piano();//누른 버튼음을 들을 수 있게 play_piano함수 실행.
@@ -362,11 +377,28 @@ void recording()
         if (checker[0] && checker[1] && checker[2] && checker[3] && checker[4])
             break ;
     }
-    Serial.println(F("Recording completed!"));
-    Serial.println(F("Wait a moment to play recorded song..."));
-    ft_delay(2000);
+    //Serial.println(F("Recording completed!"));
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(F("Recording"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("completed!"));
+    lcd.clear();
+    //Serial.println(F("Wait a moment to play recorded song..."));
+    lcd.setCursor(0, 0);
+    lcd.print(F("Wait a moment.."));
+    ft_delay(1000);
+    lcd.clear();
     //녹음한 배열을 재생.
     play_record();
-    Serial.println(F("Back to piano mode!"));
+    ft_delay(1000);
+    lcd.clear();
+    //Serial.println(F("Back to piano mode!"));
+    lcd.setCursor(0, 0);
+    lcd.print(F("Back to"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("piano mode!"));
+    ft_delay(1000);
+    lcd.clear();
     flag = PIANO;
 }

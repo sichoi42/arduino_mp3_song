@@ -166,68 +166,106 @@ void play_mp3()
     int8_t      cnt = -1;
     int8_t      ok = 0;
 
-    Serial.println(F("MP3 selected!"));
+    lcd.setCursor(0, 0);
+    lcd.print(F("MP3 selected!"));
+    //Serial.println(F("MP3 selected!"));
     ft_delay(1000);
+    lcd.clear();
     while (1)
     {
-        //start = millis();
         if (digitalRead(SELECT_MP3) == 0)//버튼을 눌러 노래 선택
         {
             cnt++;
+            ft_delay(300);
+            lcd.clear();
             if (cnt % TOTAL_SONG == 0)
-                Serial.println(F("SPARKLE"));
+            {
+                //Serial.println(F("SPARKLE"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("SPARKLE"));
+            }
             else if (cnt % TOTAL_SONG == 1)
-                Serial.println(F("LAST CHRISTMAS"));
+            {
+                //Serial.println(F("LAST CHRISTMAS"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("LAST CHRISTMAS"));
+            }
             else
-                Serial.println(F("MOVING CASTLE OF HOWL"));
-            ft_delay(1000);
+            {
+                //Serial.println(F("MOVING CASTLE OF HOWL"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("HOWL's"));
+                lcd.setCursor(0, 1);
+                lcd.print(F("MOVING CASTLE"));
+            }
         }
         if (digitalRead(OK) == 0)
             ok = 1;
         if (ok)//OK버튼이 눌렸으면 해당하는 음악을 재생
         {
+            lcd.clear();
             if (cnt % TOTAL_SONG == 0)
             {
-                Serial.println(F("play SPARKLE!"));
+                //Serial.println(F("play SPARKLE!"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("Play SPARKLE!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
                 melody3 = sparkle_melody3;
                 melody4 = sparkle_melody4;
                 melody5 = sparkle_melody5;
-                m_len = sizeof(sparkle_melody) / sizeof(int16_t) / 2;
-                m2_len = sizeof(sparkle_melody2) / sizeof(int16_t) / 2;
-                m3_len = sizeof(sparkle_melody3) / sizeof(int16_t) / 2;
-                m4_len = sizeof(sparkle_melody4) / sizeof(int16_t) / 2;
-                m5_len = sizeof(sparkle_melody5) / sizeof(int16_t) / 2;
+                m_len[0] = sizeof(sparkle_melody) / sizeof(int16_t) / 2;
+                m_len[1] = sizeof(sparkle_melody2) / sizeof(int16_t) / 2;
+                m_len[2] = sizeof(sparkle_melody3) / sizeof(int16_t) / 2;
+                m_len[3] = sizeof(sparkle_melody4) / sizeof(int16_t) / 2;
+                m_len[4] = sizeof(sparkle_melody5) / sizeof(int16_t) / 2;
             }
             else if (cnt % TOTAL_SONG == 1)
             {
-                Serial.println(F("play LAST CHRISTMAS!"));
+                //Serial.println(F("play LAST CHRISTMAS!"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("Play"));
+                lcd.setCursor(0, 1);
+                lcd.print(F("LAST CHRISTMAS!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = sparkle_melody;
                 melody2 = sparkle_melody2;
-                m_len = sizeof(christmas_melody) / sizeof(int16_t) / 2;
-                m2_len = sizeof(christmas_melody2) / sizeof(int16_t) / 2;
+                m_len[0] = sizeof(christmas_melody) / sizeof(int16_t) / 2;
+                m_len[1] = sizeof(christmas_melody2) / sizeof(int16_t) / 2;
             }
             else
             {
-                Serial.println(F("play MOVING CASTLE OF HOWL!"));
+                //Serial.println(F("play MOVING CASTLE OF HOWL!"));
+                lcd.setCursor(0, 0);
+                lcd.print(F("play HOWL's"));
+                lcd.setCursor(0, 1);
+                lcd.print(F("MOVING CASTLE"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
                 melody = howl_melody;
                 melody2 = howl_melody2;
                 melody3 = howl_melody3;
                 melody4 = howl_melody4;
                 melody5 = howl_melody5;
-                m_len = sizeof(howl_melody) / sizeof(int16_t) / 2;
-                m2_len = sizeof(howl_melody2) / sizeof(int16_t) / 2;
-                m3_len = sizeof(howl_melody3) / sizeof(int16_t) / 2;
-                m4_len = sizeof(howl_melody4) / sizeof(int16_t) / 2;
-                m5_len = sizeof(howl_melody5) / sizeof(int16_t) / 2;
+                m_len[0] = sizeof(howl_melody) / sizeof(int16_t) / 2;
+                m_len[1] = sizeof(howl_melody2) / sizeof(int16_t) / 2;
+                m_len[2] = sizeof(howl_melody3) / sizeof(int16_t) / 2;
+                m_len[3] = sizeof(howl_melody4) / sizeof(int16_t) / 2;
+                m_len[4] = sizeof(howl_melody5) / sizeof(int16_t) / 2;
             }
             break ;
         }
     }
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    if (cnt % TOTAL_SONG == 0)
+        lcd.print(F("SPARKLE"));
+    else if (cnt % TOTAL_SONG == 1)
+        lcd.print(F("LAST CHRISTMAS"));
+    else
+        lcd.print(F("MOVING CASTLE"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("is playing..."));
     while (1)
     {
         if (!m_flag[0])
@@ -244,6 +282,7 @@ void play_mp3()
         if (m_flag[0] && m_flag[1] && m_flag[2] && m_flag[3] && m_flag[4])
             break ;
     }
+    lcd.clear();
     //포인터를 다시 null로 초기화, flag값을 PIANO모드로 변경
     melody = 0;
     melody2 = 0;
@@ -251,5 +290,12 @@ void play_mp3()
     melody4 = 0;
     melody5 = 0;
     flag = PIANO;
-    Serial.println(F("Back to piano mode!"));
+    //Serial.println(F("Back to piano mode!"));
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(F("Back to"));
+    lcd.setCursor(0, 1);
+    lcd.print(F("piano mode!"));
+    ft_delay(1000);
+    lcd.clear();
 }
