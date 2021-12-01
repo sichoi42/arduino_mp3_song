@@ -168,7 +168,6 @@ void play_mp3()
 
     lcd.setCursor(0, 0);
     lcd.print(F("MP3 selected!"));
-    //Serial.println(F("MP3 selected!"));
     ft_delay(1000);
     lcd.clear();
     while (1)
@@ -180,19 +179,16 @@ void play_mp3()
             lcd.clear();
             if (cnt % TOTAL_SONG == 0)
             {
-                //Serial.println(F("SPARKLE"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("SPARKLE"));
             }
             else if (cnt % TOTAL_SONG == 1)
             {
-                //Serial.println(F("LAST CHRISTMAS"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("LAST CHRISTMAS"));
             }
             else
             {
-                //Serial.println(F("MOVING CASTLE OF HOWL"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("HOWL's"));
                 lcd.setCursor(0, 1);
@@ -206,7 +202,6 @@ void play_mp3()
             lcd.clear();
             if (cnt % TOTAL_SONG == 0)
             {
-                //Serial.println(F("play SPARKLE!"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("Play SPARKLE!"));
                 //노래가 저장되는 배열을 가르키는 포인터, 사용되는 배열만 포인터로 지정, 사용x -> null을 가르킴.
@@ -223,7 +218,6 @@ void play_mp3()
             }
             else if (cnt % TOTAL_SONG == 1)
             {
-                //Serial.println(F("play LAST CHRISTMAS!"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("Play"));
                 lcd.setCursor(0, 1);
@@ -236,7 +230,6 @@ void play_mp3()
             }
             else
             {
-                //Serial.println(F("play MOVING CASTLE OF HOWL!"));
                 lcd.setCursor(0, 0);
                 lcd.print(F("play HOWL's"));
                 lcd.setCursor(0, 1);
@@ -290,7 +283,6 @@ void play_mp3()
     melody4 = 0;
     melody5 = 0;
     flag = PIANO;
-    //Serial.println(F("Back to piano mode!"));
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(F("Back to"));

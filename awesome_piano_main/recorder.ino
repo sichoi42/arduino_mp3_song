@@ -1,5 +1,4 @@
-int16_t recorder[5][100][2];//녹음된 곡을 저장할 배열.
-
+int16_t recorder[5][100][2]; //녹음된 곡을 저장할 배열.
 int8_t record_melody(unsigned long rd_start)//'도'음을 녹음.
 {
     static unsigned long m_start;
@@ -12,6 +11,8 @@ int8_t record_melody(unsigned long rd_start)//'도'음을 녹음.
 
     if (digitalRead(OK) == 0)//녹음을 완료하였을 시 변수를 초기화하고 1반환.
     {
+        recorder[0][cnt][0] = R;
+        recorder[0][cnt][1] = 300;
         checker = 0;
         cnt = 0;
         return (1);
@@ -49,8 +50,6 @@ int8_t record_melody(unsigned long rd_start)//'도'음을 녹음.
     {
         recorder[0][cnt][0] = m;
         recorder[0][cnt][1] = m_dur;
-        recorder[0][cnt + 1][0] = 0;
-        recorder[0][cnt + 1][1] = 0;
         cnt++;
         checker = 3;
     }
@@ -71,6 +70,8 @@ int8_t record_melody2(unsigned long rd_start)
 
     if (digitalRead(OK) == 0)
     {
+        recorder[1][cnt][0] = R;
+        recorder[1][cnt][1] = 300;
         checker = 0;
         cnt = 0;
         return (1);
@@ -108,8 +109,6 @@ int8_t record_melody2(unsigned long rd_start)
     {
         recorder[1][cnt][0] = m;
         recorder[1][cnt][1] = m_dur;
-        recorder[1][cnt + 1][0] = 0;
-        recorder[1][cnt + 1][1] = 0;
         cnt++;
         checker = 3;
     }
@@ -130,6 +129,8 @@ int8_t record_melody3(unsigned long rd_start)
 
     if (digitalRead(OK) == 0)
     {
+        recorder[2][cnt][0] = R;
+        recorder[2][cnt][1] = 300;
         checker = 0;
         cnt = 0;
         return (1);
@@ -167,8 +168,6 @@ int8_t record_melody3(unsigned long rd_start)
     {
         recorder[2][cnt][0] = m;
         recorder[2][cnt][1] = m_dur;
-        recorder[2][cnt + 1][0] = 0;
-        recorder[2][cnt + 1][1] = 0;
         cnt++;
         checker = 3;
     }
@@ -189,6 +188,8 @@ int8_t record_melody4(unsigned long rd_start)
 
     if (digitalRead(OK) == 0)
     {
+        recorder[3][cnt][0] = R;
+        recorder[3][cnt][1] = 300;
         checker = 0;
         cnt = 0;
         return (1);
@@ -226,8 +227,6 @@ int8_t record_melody4(unsigned long rd_start)
     {
         recorder[3][cnt][0] = m;
         recorder[3][cnt][1] = m_dur;
-        recorder[3][cnt + 1][0] = 0;
-        recorder[3][cnt + 1][1] = 0;
         cnt++;
         checker = 3;
     }
@@ -248,6 +247,8 @@ int8_t record_melody5(unsigned long rd_start)
 
     if (digitalRead(OK) == 0)
     {
+        recorder[4][cnt][0] = R;
+        recorder[4][cnt][1] = 300;
         checker = 0;
         cnt = 0;
         return (1);
@@ -285,8 +286,6 @@ int8_t record_melody5(unsigned long rd_start)
     {
         recorder[4][cnt][0] = m;
         recorder[4][cnt][1] = m_dur;
-        recorder[4][cnt + 1][0] = 0;
-        recorder[4][cnt + 1][1] = 0;
         cnt++;
         checker = 3;
     }
@@ -299,7 +298,6 @@ void play_record()//mp3_player.ino에 정의한 함수를 조금 수정하여 �
 {
     int8_t m_flag[5] = {0, };
 
-    //Serial.println("PLAY!");
     lcd.setCursor(0, 0);
     lcd.print(F("Playing"));
     lcd.setCursor(0, 1);
@@ -345,8 +343,17 @@ void recording()
 {
     unsigned long rd_start = millis();//녹음 시작버튼이 눌린 시간 측정.
     int8_t        checker[5] = {0, };
+    int8_t        i;
+    int16_t       cnt;
 
-    //Serial.println(F("Recording selected!"));
+    for (i=0;i<5;i++)
+    {
+        for (cnt=0;cnt<100;cnt++)
+        {
+            recorder[i][cnt][0] = 0;
+            recorder[i][cnt][1] = 0;
+        }
+    }
     lcd.setCursor(0, 0);
     lcd.print(F("Recording"));
     lcd.setCursor(0, 1);
@@ -372,14 +379,12 @@ void recording()
         if (checker[0] && checker[1] && checker[2] && checker[3] && checker[4])
             break ;
     }
-    //Serial.println(F("Recording completed!"));
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(F("Recording"));
     lcd.setCursor(0, 1);
     lcd.print(F("completed!"));
     ft_delay(1000);
-    //Serial.println(F("Wait a moment to play recorded song..."));
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(F("Wait a moment.."));
@@ -391,7 +396,6 @@ void recording()
 
     ft_delay(1000);
     lcd.clear();
-    //Serial.println(F("Back to piano mode!"));
     lcd.setCursor(0, 0);
     lcd.print(F("Back to"));
     lcd.setCursor(0, 1);

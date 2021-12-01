@@ -58,9 +58,8 @@ void setup()
     pinMode(SELECT_PITCH_GAME, INPUT_PULLUP);//절대음감 게임 모드로 전환할 때 사용
     pinMode(OK, INPUT_PULLUP);//mp3에서 재생할 곡을 결정하거나, recorder에서 녹음을 완료했을 때 사용
     randomSeed(analogRead(0));//절대음감 게임에서 랜덤으로 음이 나오게 하기 위해 seed 설정
-    //Serial.begin(9600);
     lcd.init();
-    lcd.backlight();  
+    lcd.backlight();
 }
 
 void play_piano()//브레드보드 위의 버튼을 눌렀을 때 해당하는 음이 울림.
